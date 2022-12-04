@@ -1,0 +1,76 @@
+"""Code by Benjamin Blakley"""
+def encode(encode_file, secret_key_file):
+    "Using the files given, creates a dictonary"
+    secret_key_dict = {}
+    encode_file = open(encode_file)
+    secret_key = secret_key_file
+    secret_key_file = open(secret_key_file)
+    i = 0
+    for line in secret_key_file:
+        for word in line.split():
+            if i == 0:
+                oldword = word.strip()
+                i = i + 2
+            elif i == 2:
+                secret_key_dict[oldword] = word.strip()
+                i = 0
+    "Next this function will encode the given encode_file"
+    "Precondition is that the encode file contains only words found in the key"
+    encode_list = []
+    i = 0
+    str = ""
+    encoded_list = []
+    for line in encode_file:
+        encoded_list.append(str)
+        str = " "
+        for word in line.split():
+            secret_word = secret_key_dict[word]
+            str += " " + secret_word
+            encode_list.append(secret_word)
+    encoded_list.append(str)
+    encoded_list.pop(0)
+    print("This is the <word, encode_word> words are:", encode_list)
+    sum = 0
+    "This for-loop prints the encoded file in lines"
+    print("This is the encoded lines")
+    for i in range(len(encoded_list)):
+        print(encoded_list[i])
+    decode(encoded_list, secret_key)
+
+def decode(encoded_list, secret_key_file):
+    "Using the files given, creates a dictonary"
+    decode_dict = {}
+    secret_key_file = open(secret_key_file)
+    i = 0
+    for line in secret_key_file:
+        for word in line.split():
+            if i == 0:
+                oldword = word.strip()
+                i = i + 2
+            elif i == 2:
+                decode_dict[word.strip()] = oldword
+                i = 0
+    decoded_list = []
+    str = ""
+    decode_list = []
+    "This for-loop decodes the encoded list and creates a decoded one"
+    for line in encoded_list:
+        decoded_list.append(str)
+        str = ""
+        for word in line.split():
+            secret_word = decode_dict[word]
+            str += " " + secret_word
+            decode_list.append(secret_word)
+    decoded_list.append(str)
+    decoded_list.pop(0)
+    print("This is the <encode_word, word> words are:", decode_list)
+    print("This is the decoded lines:")
+    for i in range(len(decoded_list)):
+        print(decoded_list[i])
+def simulation():
+    "First obtains users files"
+    secret_file = input("Enter your secret file:")
+    encode_file = input("Enter your file to encode:")
+    encode(encode_file, secret_file)
+
+simulation()
